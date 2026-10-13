@@ -427,7 +427,7 @@ const ACH={
 function unlock(id){if(P.ach[id])return;P.ach[id]=Date.now();ST.save();toastQ.push(`${ACH[id].ic} Başarım açıldı: <b>${ACH[id].n}</b>`);}
 function flushAch(){if(!toastQ.length)return;const m=toastQ.splice(0).join('<br>');setTimeout(()=>{toast(m,3200);AU.sfx('ach');},700);}
 const LEVS=[1,3,5,10,25,50], STAKES=[25,50,100], TPS=[0,50,100,200], SLS=[0,30,60];
-const HIST=24, FUT=70, TICK_MS=95, STREAK_BONUS=150, DAILY_N=10;
+const HIST=24, FUT=70, TICK_MS=190, STREAK_BONUS=150, DAILY_N=10;
 
 let R=Math.random;
 function mulberry(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -449,6 +449,7 @@ function genSeries(r,stageIdx,boss){
  let news=null;
  if(boss||R()<.6){const pos=R()<(r==="bear"||r==="crash"||r==="rug"?.35:.55);
   news={tick:HIST+15+Math.floor(R()*40),pos,mag:.08+R()*.08,text:(pos?NEWS.pos:NEWS.neg)[Math.floor(R()*5)]};}
+ const pend=new Array(n+8).fill(0);
  for(let i=1;i<n;i++){
   let mu=0,sg=.01,jump=0,last=p[i-1],rr=r;
   if(r==="chaos"){ if(i%14===0) chaosR=chaosR==="bull"?"bear":"bull"; rr=chaosR; }
@@ -460,7 +461,9 @@ function genSeries(r,stageIdx,boss){
   else if(rr==="rug"){ if(i<twist){mu=.014;sg=.02*m;} else {mu=-.01;sg=.025*m; if(i===twist)jump=-.5-R()*.1;} }
   else if(rr==="moon"){mu=.02;sg=.04*m; if(R()<.05)jump=-.1-R()*.06;}
   if(news&&i===news.tick)jump+=news.pos?news.mag:-news.mag;
-  const ret=Math.max(-.7,mu+sg*gauss()+jump);
+  // şoklar birkaç muma yayılır (haber 4, büyük sıçramalar 3, küçükler 2)
+  if(jump){const k=Math.abs(jump)>.1?(news&&i===news.tick?4:3):2;for(let j=0;j<k;j++)pend[i+j]+=jump/k;}
+  const ret=Math.max(-.7,mu+sg*.78*gauss()+pend[i]);
   p.push(Math.max(.5,last*(1+ret)));
  }
  return {p,news};
@@ -884,17 +887,17 @@ function runRace(){
  function botLive(i){const s=st[i];if(!s.open)return;const r=s.pnl/s.margin;s.peak=Math.max(s.peak,r);
   if(S.bot==='orta'&&r>.6&&(p[t]-p[t-3])*s.d<0)closeP(i,'manual');
   else if(S.bot==='zor'){const drop=(p[t]/p[t-3]-1)*s.d;
-   if((s.peak>.35&&r<s.peak*.7)||r>1.6||(r>.1&&drop<-.05)||(r<-.5&&drop<-.03))closeP(i,'manual');
+   if((s.peak>.35&&r<s.peak*.7)||r>1.6||(r>.1&&drop<-.035)||(r<-.5&&drop<-.02))closeP(i,'manual');
    else if(r>.25&&s.adds<1&&drop>0&&['bull','moon'].includes(st0.r)&&Math.random()<.05)addP(i);}
   else if(S.bot==='ali'&&r>.3&&s.adds<2&&Math.random()<.08)addP(i);}
  function go(){for(let i=0;i<np;i++){const c=$('#cl'+i);if(c&&st[i].open)c.disabled=false;upd(i);}
   timer=setInterval(()=>{if(!document.body.contains(cv)){clearInterval(timer);return;}t++;
-   if(S.news&&t===S.news.tick){const nw=$('#news');nw.className='news '+(S.news.pos?'pos':'neg');nw.innerHTML=`<small>⚡ SON DAKİKA</small>${esc(S.news.text)}`;nw.hidden=false;AU.sfx('news');FX.vibrate(120);setTimeout(()=>{if(nw)nw.hidden=true;},2200);}
+   if(S.news&&t===S.news.tick){const nw=$('#news');nw.className='news '+(S.news.pos?'pos':'neg');nw.innerHTML=`<small>⚡ SON DAKİKA</small>${esc(S.news.text)}`;nw.hidden=false;AU.sfx('news');FX.vibrate(120);setTimeout(()=>{if(nw)nw.hidden=true;},3000);}
    for(let i=0;i<np;i++){const s=st[i];if(!s.open)continue;s.pnl=value(s,t);const r=s.pnl/s.margin;
     if(r<=-.9)closeP(i,'liq');else if(s.tp&&r>=s.tp/100)closeP(i,'tp');else if(s.sl&&r<=-s.sl/100)closeP(i,'sl');else{upd(i);if(isBot(i))botLive(i);}}
    $('#px').textContent=pxf(p[t]);const ch=p[t]/p[e]-1;const pc=$('#pxc');pc.textContent=pct(ch);pc.className='num small '+(ch>=0?'up':'down');
    const pr=$('#prog i');if(pr)pr.style.width=Math.max(0,100*(1-(t-e)/total))+'%';const pt=$('#progt');if(pt)pt.textContent=Math.ceil((total-(t-e))*TICK_MS/1000)+' sn';
-   if((t-e)%3===0)AU.sfx('chart',p[t]-p[t-3]);
+   if((t-e)%2===0)AU.sfx('chart',p[t]-p[t-3]);
    redraw();
    if(t>=p.length-1||st.every(s=>!s.open)){clearInterval(timer);
     for(let i=0;i<np;i++)closeP(i,'end');setTimeout(()=>finish(st,t),1200);}
