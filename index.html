@@ -175,10 +175,74 @@ td:last-child,th:last-child{text-align:right}
 .sw::after{content:"";position:absolute;left:4px;top:4px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s}
 .sw.on{background:var(--up)} .sw.on::after{left:28px}
 details summary{cursor:pointer;font-weight:700}
+
+/* ===== OYUN HİSSİ: neon arena ===== */
+body{background:#0b0718}
+#bg{position:fixed;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
+.card{background:linear-gradient(180deg,#241a45f0,#1b1436f0);box-shadow:0 0 0 1px #ffffff08 inset,0 8px 24px #0006}
+.chartbox{border-color:#5b44c9;box-shadow:0 0 22px #6a4cff40,inset 0 0 40px #6a4cff22;background:linear-gradient(180deg,#140f2b,#0e0a1f)}
+.big{position:relative;overflow:hidden;box-shadow:0 6px 0 rgba(0,0,0,.4),0 0 18px #ffd45c33;text-shadow:0 1px 0 #fff6}
+.big::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,#ffffff55,transparent);animation:shine 3s infinite;pointer-events:none}
+@keyframes shine{0%{left:-60%}55%,100%{left:130%}}
+.big:active:not(:disabled){transform:translateY(4px) scale(.985);box-shadow:0 2px 0 rgba(0,0,0,.4)}
+.dirbtn{transition:transform .12s cubic-bezier(.2,1.6,.4,1)}
+.dirbtn.on{transform:scale(1.04)} .dirbtn:active{transform:scale(.93)}
+.closebtn{box-shadow:0 5px 0 rgba(0,0,0,.4)}
+.closebtn:not(:disabled){animation:glowp 1.1s infinite}
+.closebtn:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.4)}
+@keyframes glowp{50%{filter:brightness(1.18);box-shadow:0 5px 0 rgba(0,0,0,.4),0 0 24px #ffd45caa}}
+h1,h2{text-shadow:0 0 18px color-mix(in srgb,currentColor 40%,transparent)}
+.arena{position:relative;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;padding:10px 10px 8px;border-radius:16px;background:radial-gradient(ellipse at 50% 120%,#ff5c6c33,transparent 60%),linear-gradient(180deg,#2a1d5a,#160f33);border:1px solid #5b44c9;box-shadow:0 0 24px #6a4cff44}
+.fighter{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.ava{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:36px;line-height:1;background:radial-gradient(circle at 35% 30%,#ffffff33,transparent 60%),var(--c);box-shadow:0 0 0 3px var(--c),0 0 20px var(--c);position:relative;animation:idle 2.2s ease-in-out infinite;will-change:transform}
+.ava.p1{--c:color-mix(in srgb,var(--p1) 65%,#1a1430)} .ava.p2{--c:color-mix(in srgb,var(--p2) 55%,#1a1430)} .ava.mk{--c:color-mix(in srgb,var(--down) 55%,#1a1430)}
+@keyframes idle{50%{transform:translateY(-4px)}}
+.ava.cheer{animation:cheer .5s ease-in-out infinite}
+@keyframes cheer{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-11px) rotate(-9deg) scale(1.06)}60%{transform:translateY(-4px) rotate(9deg)}}
+.ava.hurt{animation:hurt .28s linear infinite;filter:saturate(.6) brightness(.85)}
+@keyframes hurt{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.ava.ko{filter:grayscale(1) brightness(.55);transform:rotate(90deg);animation:none}
+.ava .emo{position:absolute;right:-10px;top:-10px;font-size:22px;filter:drop-shadow(0 2px 2px #000)}
+.hp{width:100%;height:12px;border-radius:6px;background:#0009;border:1px solid #ffffff30;overflow:hidden}
+.hp i{display:block;height:100%;transition:width .3s;background:linear-gradient(90deg,#2fbf6f,#b6ffd6);box-shadow:0 0 10px #4fd18b}
+.hp.mid i{background:linear-gradient(90deg,#e0a800,#fff1b8);box-shadow:0 0 10px var(--warn)} .hp.low i{background:linear-gradient(90deg,#d8243a,#ffb0b8);box-shadow:0 0 10px var(--down)}
+.fname{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fbal{font-family:var(--mono);font-size:13px;font-weight:800}
+.vs{font-family:var(--display);font-size:32px;color:var(--warn);text-shadow:0 0 12px var(--warn),0 0 30px #ff5c6c;animation:vsp 1.4s ease-in-out infinite}
+@keyframes vsp{50%{transform:scale(1.12)}}
+#vsov{position:fixed;inset:0;z-index:19;background:radial-gradient(circle at 50% 45%,#3a238aee,#0b0718f8 70%);overflow:hidden}
+#vsov::before{content:"";position:absolute;inset:-50%;background:repeating-conic-gradient(from 0deg,#ffffff08 0 8deg,transparent 8deg 16deg);animation:spin 12s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#vsov .side{position:absolute;top:26%;display:flex;flex-direction:column;align-items:center;gap:10px;width:42%}
+#vsov .l{left:4%;animation:inL .55s cubic-bezier(.2,1.4,.4,1) both} #vsov .r{right:4%;animation:inR .55s cubic-bezier(.2,1.4,.4,1) both}
+#vsov .ava{width:108px;height:108px;font-size:64px}
+#vsov .bvs{position:absolute;left:0;right:0;top:30%;text-align:center;font-family:var(--display);font-size:92px;color:var(--warn);text-shadow:0 0 20px var(--warn),0 0 60px var(--down),0 6px 0 #000;animation:slam .45s .45s cubic-bezier(.2,1.6,.4,1) both}
+#vsov .info{position:absolute;left:16px;right:16px;bottom:20%;text-align:center;animation:fadeUp .4s .75s both}
+#vsov .info h2{font-size:44px}
+@keyframes inL{from{transform:translateX(-170%)}} @keyframes inR{from{transform:translateX(170%)}}
+@keyframes slam{from{transform:scale(4) rotate(-14deg);opacity:0}}
+@keyframes fadeUp{from{transform:translateY(30px);opacity:0}}
+#vsov.out{animation:fo .3s forwards} @keyframes fo{to{opacity:0}}
+.callout{position:fixed;left:50%;top:36%;z-index:26;font-family:var(--display);font-size:clamp(46px,14vw,76px);white-space:nowrap;pointer-events:none;letter-spacing:1px;-webkit-text-stroke:2px #1a1430;text-shadow:0 0 22px currentColor,0 6px 0 #1a1430;animation:co 1.4s cubic-bezier(.2,1.5,.4,1) forwards}
+.callout small{display:block;text-align:center;font-size:.36em;-webkit-text-stroke:0;color:#fff}
+@keyframes co{0%{transform:translate(-50%,-50%) scale(.2) rotate(-10deg);opacity:0}18%{transform:translate(-50%,-50%) scale(1.15) rotate(-4deg);opacity:1}30%{transform:translate(-50%,-50%) scale(1) rotate(-4deg)}80%{opacity:1}100%{transform:translate(-50%,-85%) scale(1) rotate(-4deg);opacity:0}}
+.count{font-size:120px;background:#0007;text-shadow:0 0 20px var(--warn),0 0 50px var(--down),0 6px 0 #000}
+.shk{animation:shk .25s}
+@keyframes shk{25%{transform:translate(-4px,2px)}50%{transform:translate(4px,-2px)}75%{transform:translate(-2px,1px)}}
+.trophy{font-size:100px;text-align:center;line-height:1.1;animation:tro 1s cubic-bezier(.2,1.6,.4,1) both;filter:drop-shadow(0 0 26px var(--warn))}
+@keyframes tro{from{transform:scale(0) rotate(-30deg)}}
+.reward{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rw{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.rw b{font-family:var(--display);font-size:30px;display:block;color:var(--warn);text-shadow:0 0 12px #ffd45c88}
+.xpbar{height:16px;border-radius:8px;background:#0009;overflow:hidden;border:1px solid #ffffff25}
+.xpbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--boss),var(--p2));box-shadow:0 0 14px var(--boss);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.lvchip{display:inline-flex;gap:6px;align-items:center;font-weight:800;font-size:13px;color:var(--fg)}
+@media (prefers-reduced-motion:reduce){.ava,.vs,.big::after,.closebtn,#vsov::before,.trophy,.callout{animation:none!important}}
 </style>
 </head>
 <body style="margin:0">
 <div class="topbtns"><button id="mute" aria-label="Sesi aç/kapat">🔊</button><button id="gear" aria-label="Ayarlar">⚙️</button></div>
+<canvas id="bg"></canvas>
 <div id="flash"></div>
 <canvas id="cf"></canvas>
 <div id="toast" hidden></div>
@@ -188,7 +252,7 @@ details summary{cursor:pointer;font-weight:700}
 // ===== KAYIT =====
 const ST={k:'ba2',d:{},
  load(){try{this.d=JSON.parse(localStorage.getItem(this.k))||{};}catch(e){this.d={};}
-  const def={vol:.8,sfx:.9,mus:.5,muted:false,music:true,hap:true,timer:25,tutDone:false,rating:1000,peak:1000,games:0,wins:0,mstreak:0,bestMStreak:0,ach:{},lb:[],daily:{}};
+  const def={xp:0,lvl:1,coins:0,vol:.8,sfx:.9,mus:.5,muted:false,music:true,hap:true,timer:25,tutDone:false,rating:1000,peak:1000,games:0,wins:0,mstreak:0,bestMStreak:0,ach:{},lb:[],daily:{}};
   for(const k in def)if(this.d[k]===undefined)this.d[k]=def[k];
   try{if(localStorage.getItem('ba_mute')==='1'&&!localStorage.getItem(this.k))this.d.muted=true;
    for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('ba_best_')){const dt=k.slice(8),v=+localStorage.getItem(k);if(!(this.d.daily[dt]>=v))this.d.daily[dt]=v;}}}catch(e){}},
@@ -273,6 +337,9 @@ const AU={ctx:null,tense:false,step:0,nextT:0,
    case'bonus':[784,988,1175,1568,1976].forEach((f,i)=>T(f,.3,'triangle',.1,t+i*.07,{echo:1}));break;
    case'ach':[1047,1319,1568,2093].forEach((f,i)=>T(f,.35,'sine',.08,t+i*.08,{echo:1}));N(.6,.05,t,{type:'highpass',f:8000});break;
    case'boss':T(55,1.8,'sawtooth',.22,t,{slide:41,echo:1});T(110,1.6,'square',.07,t,{slide:82});this.kick(t,.7,this.sfxBus);this.kick(t+.45,.5,this.sfxBus);break;
+   case'vs':N(.5,.25,t,{type:'bandpass',f:400,fEnd:4000,q:2,rise:1});this.kick(t+.45,.9,this.sfxBus);T(80,.8,'sawtooth',.18,t+.45,{slide:40});N(.6,.35,t+.45,{f:2500,fEnd:120});T(1568,.3,'square',.04,t+.75,{echo:1});break;
+   case'coin':[1976,2637].forEach((f,i)=>T(f,.12,'square',.035,t+i*.06));break;
+   case'lvl':[523,659,784,1047,1319,1568,2093].forEach((f,i)=>T(f,.4,'triangle',.08,t+i*.07,{echo:1}));this.kick(t,.5,this.sfxBus);break;
    case'fanfare':{const seq=[[523,.12],[659,.12],[784,.12],[1047,.36],[784,.12],[1047,.6]];let d=0;seq.forEach(([f,l])=>{T(f,l+.2,'sawtooth',.05,t+d,{echo:1});T(f,l+.2,'square',.03,t+d,{det:8});d+=l;});
     [262,330,392].forEach(f=>T(f,1.6,'triangle',.06,t+.72));this.kick(t,.5,this.sfxBus);this.kick(t+.72,.6,this.sfxBus);N(1.2,.05,t+.72,{type:'highpass',f:6000});}break;
   }},
@@ -296,13 +363,49 @@ const FX={parts:[],run:false,
   for(let i=0;i<n;i++)this.parts.push({x:W/2+(Math.random()-.5)*W*.5,y:H*.35,vx:(Math.random()-.5)*9,vy:-Math.random()*10-3,r:Math.random()*6+3,c:cols[i%cols.length],a:Math.random()*6,life:110});
   if(!this.run){this.run=true;const ctx=cv.getContext('2d');
    const step=()=>{ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
-    this.parts.forEach(p=>{p.vy+=.28;p.x+=p.vx;p.y+=p.vy;p.a+=.2;p.life--;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillStyle=p.c;ctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);ctx.restore();});
-    this.parts=this.parts.filter(p=>p.life>0&&p.y<H+20);
+    this.parts.forEach(p=>{p.life--;
+     if(p.k==='spark'){p.vx*=.94;p.vy=p.vy*.94+.12;p.x+=p.vx;p.y+=p.vy;ctx.globalAlpha=Math.max(0,p.life/60);ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fill();ctx.globalAlpha=1;return;}
+     p.vy+=.28;p.x+=p.vx;p.y+=p.vy;p.a+=.2;
+     if(p.k==='coin'){const w=Math.abs(Math.cos(p.a))*p.r+1;ctx.fillStyle='#ffd45c';ctx.beginPath();ctx.ellipse(p.x,p.y,w,p.r,0,0,7);ctx.fill();ctx.fillStyle='#c98a00';ctx.beginPath();ctx.ellipse(p.x,p.y,w*.55,p.r*.55,0,0,7);ctx.fill();return;}
+     ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillStyle=p.c;ctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);ctx.restore();});
+    this.parts=this.parts.filter(p=>p.life>0&&p.y<H+40);
     if(this.parts.length)requestAnimationFrame(step);else{ctx.clearRect(0,0,W,H);this.run=false;}};
    requestAnimationFrame(step);}}
 };
 let toastT;const toastQ=[];
+// Fazladan efektler: parçacık, yazı patlaması, sarsıntı
+Object.assign(FX,{
+ burst(x,y,kind,n){if(RM)return;const cv=document.getElementById('cf'),W=innerWidth,H=innerHeight,dpr=devicePixelRatio||1;
+  if(!this.run){cv.width=W*dpr;cv.height=H*dpr;}
+  for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=kind==='boom'?2+Math.random()*9:3+Math.random()*6;
+   this.parts.push(kind==='coin'?{k:'coin',x,y,vx:Math.cos(a)*v*.7,vy:-Math.abs(Math.sin(a))*v-4,r:7+Math.random()*4,a:Math.random()*6,life:80}
+    :{k:'spark',x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:2+Math.random()*4,c:['#ff5c6c','#ffb340','#ffd45c','#fff'][i%4],life:40+Math.random()*30});}
+  this.confetti(0);},
+ at(el){const r=el?el.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0};return [r.left+r.width/2,r.top+r.height/2];},
+ callout(txt,col,sub){if(RM&&false)return;document.querySelectorAll('.callout').forEach(e=>e.remove());const d=document.createElement('div');d.className='callout';d.style.color=col;d.innerHTML=txt+(sub?`<small>${sub}</small>`:'');document.body.appendChild(d);setTimeout(()=>d.remove(),1450);},
+ shk(el){if(RM||!el)return;el.classList.remove('shk');void el.offsetWidth;el.classList.add('shk');},
+ flashC(col,o=.3){const f=document.getElementById('flash');f.style.background=col;f.style.opacity=o;setTimeout(()=>{f.style.opacity=0;},140);}
+});
 function toast(msg,ms=2600){const t=document.getElementById('toast');t.innerHTML=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,ms);}
+
+// ===== HAREKETLİ ARKA PLAN: yıldızlar + paralaks neon şehir =====
+const BG={sp:1,
+ init(){const cv=document.getElementById('bg');this.cv=cv;this.ctx=cv.getContext('2d');this.size();addEventListener('resize',()=>this.size());
+  let last=0;const loop=ts=>{requestAnimationFrame(loop);if(document.hidden)return;const dt=Math.min(50,ts-last);last=ts;this.draw(ts,dt);};
+  if(RM){this.draw(0,0);}else requestAnimationFrame(loop);},
+ size(){const dpr=Math.min(2,devicePixelRatio||1),W=innerWidth,H=innerHeight;this.W=W;this.H=H;this.cv.width=W*dpr;this.cv.height=H*dpr;this.ctx.setTransform(dpr,0,0,dpr,0,0);
+  this.stars=Array.from({length:70},()=>({x:Math.random()*W,y:Math.random()*H*.7,r:Math.random()*1.4+.3,t:Math.random()*6}));
+  this.layers=[this.city(W,H*.22,'#1d1442','#ff5c6c',.25),this.city(W,H*.15,'#2a1b5c','#3fd6e8',.5)];this.off=[0,0];},
+ city(W,h,col,win,dens){const c=document.createElement('canvas'),w=Math.ceil(W*1.5);c.width=w;c.height=Math.ceil(h);const x=c.getContext('2d');let px=0;
+  while(px<w){const bw=18+Math.random()*40,bh=h*(.35+Math.random()*.65);x.fillStyle=col;x.fillRect(px,h-bh,bw,bh);
+   x.fillStyle=win;for(let yy=h-bh+6;yy<h-4;yy+=9)for(let xx=px+4;xx<px+bw-4;xx+=8)if(Math.random()<dens*.5){x.globalAlpha=.25+Math.random()*.5;x.fillRect(xx,yy,3,4);}x.globalAlpha=1;px+=bw+2;}
+  return c;},
+ draw(ts,dt){const c=this.ctx,W=this.W,H=this.H;const g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#120a2e');g.addColorStop(.7,'#1c1145');g.addColorStop(1,'#2b0f3a');c.fillStyle=g;c.fillRect(0,0,W,H);
+  c.fillStyle='#fff';this.stars.forEach(s=>{s.t+=dt*.002;c.globalAlpha=.35+.35*Math.sin(s.t);c.fillRect(s.x,s.y,s.r,s.r);s.x-=dt*.004*this.sp;if(s.x<0)s.x=W;});c.globalAlpha=1;
+  const hz=c.createRadialGradient(W/2,H,10,W/2,H,H*.6);hz.addColorStop(0,'#ff5c6c40');hz.addColorStop(1,'transparent');c.fillStyle=hz;c.fillRect(0,H*.4,W,H*.6);
+  this.layers.forEach((L,i)=>{this.off[i]=(this.off[i]+dt*(i?.02:.008)*this.sp)%L.width;const y=H-L.height;c.drawImage(L,-this.off[i],y);c.drawImage(L,L.width-this.off[i],y);});}
+};
+BG.init();
 
 // ===== ÖĞRETİCİ (adım adım vurgulama) =====
 const Coach={on:false,
@@ -400,10 +503,10 @@ const CARDS={
  double:{ic:"✨",n:"Çifte kâr",d:"Bu etapta kârın iki katı olur."}
 };
 const BOTS={
- kolay:{n:"Temkinli Teyze",lv:"Kolay",c:"kolay",d:"Düşük kaldıraç, rastgele kararlar",elo:900},
- orta:{n:"Soğukkanlı Selin",lv:"Orta",c:"orta",d:"Trendi takip eder, kârı erken alır",elo:1200},
- zor:{n:"Kurnaz Kaan",lv:"Zor",c:"zor",d:"Piyasayı okur, riski yönetir, kartları akıllıca oynar",elo:1550},
- ali:{n:"Degen Ali",lv:"Çılgın",c:"ali",d:"25x–50x, asla kapatmaz",elo:1100}
+ kolay:{ic:"👵",n:"Temkinli Teyze",lv:"Kolay",c:"kolay",d:"Düşük kaldıraç, rastgele kararlar",elo:900},
+ orta:{ic:"😎",n:"Soğukkanlı Selin",lv:"Orta",c:"orta",d:"Trendi takip eder, kârı erken alır",elo:1200},
+ zor:{ic:"🦊",n:"Kurnaz Kaan",lv:"Zor",c:"zor",d:"Piyasayı okur, riski yönetir, kartları akıllıca oynar",elo:1550},
+ ali:{ic:"🤪",n:"Degen Ali",lv:"Çılgın",c:"ali",d:"25x–50x, asla kapatmaz",elo:1100}
 };
 const TIERS=[["Bronz",0,"🥉"],["Gümüş",1050,"🥈"],["Altın",1250,"🥇"],["Platin",1450,"💠"],["Elmas",1650,"💎"]];
 const tierOf=r=>{let t=TIERS[0];for(const x of TIERS)if(r>=x[1])t=x;return t;};
@@ -427,7 +530,7 @@ const ACH={
 function unlock(id){if(P.ach[id])return;P.ach[id]=Date.now();ST.save();toastQ.push(`${ACH[id].ic} Başarım açıldı: <b>${ACH[id].n}</b>`);}
 function flushAch(){if(!toastQ.length)return;const m=toastQ.splice(0).join('<br>');setTimeout(()=>{toast(m,3200);AU.sfx('ach');},700);}
 const LEVS=[1,3,5,10,25,50], STAKES=[25,50,100], TPS=[0,50,100,200], SLS=[0,30,60];
-const HIST=24, FUT=70, TICK_MS=190, STREAK_BONUS=150, DAILY_N=10;
+const HIST=24, FUT=70, TICK_MS=300, STREAK_BONUS=150, DAILY_N=10;
 
 let R=Math.random;
 function mulberry(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -524,12 +627,12 @@ function vStart(){
    <div><label class="lbl p1c" for="n1">1. oyuncu</label><input id="n1" maxlength="12" value="${esc(S.names[0])}"></div>
    <div><label class="lbl p2c" for="n2">2. oyuncu</label><input id="n2" maxlength="12" value="${esc(S.names[1]&&!Object.values(BOTS).some(b=>b.n===S.names[1])?S.names[1]:'Oyuncu 2')}"></div></div>`
   :`<div><label class="lbl p1c" for="n1">Adın</label><input id="n1" maxlength="12" value="${esc(S.names[0])}"></div>`;
- const bots= m==="bot"?`<div><span class="lbl">Zorluk / rakip</span><div class="bots" style="margin-top:6px">${Object.entries(BOTS).map(([k,b])=>`<button data-bot="${k}" class="${S.bot===k?'on':''}"><span class="lvl lv-${b.c}">${b.lv}</span><b>${b.n}</b><span class="small" style="font-size:12px">${b.d}</span><span class="small num" style="font-size:12px">Reyting ${b.elo}</span></button>`).join("")}</div></div>`:"";
+ const bots= m==="bot"?`<div><span class="lbl">Zorluk / rakip</span><div class="bots" style="margin-top:6px">${Object.entries(BOTS).map(([k,b])=>`<button data-bot="${k}" class="${S.bot===k?'on':''}"><span class="lvl lv-${b.c}">${b.lv}</span><b>${b.ic} ${b.n}</b><span class="small" style="font-size:12px">${b.d}</span><span class="small num" style="font-size:12px">Reyting ${b.elo}</span></button>`).join("")}</div></div>`:"";
  const best=P.daily[today()];
  const daily= m==="daily"?`<p class="small" style="margin:0">Bugün herkes aynı ${DAILY_N} etabı ve aynı kartları oynar. İstediğin kadar dene, en iyi skorun kaydedilir. ${best?`Bugünkü rekorun: <b class="num">${fmt(best)}</b>`:''}</p>`:"";
  return `
  <div class="row sb" style="align-items:flex-end"><div><span class="lbl">Kripto düellosu</span><h1><span class="b">Boğa</span> &amp; <span class="a">Ayı</span><br>Düellosu</h1></div>
-  <button class="ghost" id="prof" style="padding:8px 10px;display:flex;flex-direction:column;align-items:flex-end;gap:4px">${tierHtml(P.rating)}<span class="small" style="font-size:12px">Profil ve sıralama ›</span></button></div>
+  <button class="ghost" id="prof" style="padding:8px 10px;display:flex;flex-direction:column;align-items:flex-end;gap:4px">${tierHtml(P.rating)}<span class="lvchip">⭐ Sv ${P.lvl} · 🪙 ${P.coins}</span><span class="small" style="font-size:12px">Profil ve sıralama ›</span></button></div>
  ${!P.tutDone?`<button class="big" id="tut" style="background:var(--up)">🎓 İlk kez mi? Nasıl oynanır</button>`:''}
  <div class="card col" style="gap:12px">
   <div class="mode">
@@ -568,6 +671,19 @@ function vCover(){const i=S.picker;return `<div class="cover"><div class="col" s
  <p class="small">${esc(S.names[1-i])}, ekrana bakma 🙈</p>
  <button class="big" id="go" style="background:${i?'var(--p2)':'var(--p1)'};max-width:320px">Hazırım</button></div></div>`}
 
+const avaOf=i=>i===0?'🐂':S.mode==='bot'?BOTS[S.bot].ic:'🐻';
+const fighterHtml=(i,small)=>{const mk=i===1&&NP()===1;const nm=mk?'Piyasa':S.names[i];
+ return `<div class="fighter"><div class="ava ${mk?'mk':i?'p2':'p1'}" id="av${i}">${mk?'🐻':avaOf(i)}<span class="emo" id="em${i}"></span></div>
+  <span class="fname ${mk?'down':i?'p2c':'p1c'}">${esc(nm)}</span>${mk?'<span class="small" style="font-size:12px">rakibin</span>':`<div class="hp" id="hp${i}"><i style="width:${hpW(S.bal[i])}%"></i></div><span class="fbal" id="fb${i}">${fmt(S.bal[i])}</span>`}</div>`;};
+const hpW=v=>Math.max(2,Math.min(100,v/20));
+function setHp(i,v){const h=$('#hp'+i);if(!h)return;h.querySelector('i').style.width=hpW(v)+'%';h.className='hp'+(v<300?' low':v<700?' mid':'');const b=$('#fb'+i);if(b)b.textContent=fmt(v);}
+function react(i,st){const a=$('#av'+i);if(!a||a.dataset.st===st)return;a.dataset.st=st;a.className=a.className.replace(/ (cheer|hurt|ko)/g,'')+(st==='idle'?'':' '+st);
+ const e=$('#em'+i);if(e)e.textContent={cheer:'🔥',hurt:'💦',ko:'💀',win:'💰',idle:''}[st]||'';}
+function showVS(done){const st=stg();if(RM){done();return;}const ov=document.createElement('div');ov.id='vsov';
+ ov.innerHTML=`<div class="side l">${fighterHtml(0)}</div><div class="side r">${fighterHtml(1)}</div><div class="bvs">VS</div>
+ <div class="info"><span class="lbl">Etap ${S.stage+1}/${S.stages.length}</span><h2>$${esc(st.coin)}</h2><span class="tag r-${st.r}">${RNAME[st.r]}</span>${st.boss?' <span class="bossbadge">PATRON ×2</span>':''}<p class="small" style="margin-top:10px">Geçmek için dokun</p></div>`;
+ ov.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));document.body.appendChild(ov);AU.sfx('vs');setTimeout(()=>FX.vibrate(60),450);
+ let gone=false;const end=()=>{if(gone)return;gone=true;ov.classList.add('out');setTimeout(()=>{ov.remove();done();},280);};ov.onclick=end;setTimeout(end,2300);}
 function liqPx(entry,dir,lev){return dir==='short'?entry*(1+.9/lev):entry*(1-.9/lev);}
 function pickSummary(i){const pk=S.pick[i],e=S.series[HIST-1];
  if(!pk.dir)return '👆 Önce yön seç: fiyat <b class="up">yükselecek</b> mi, <b class="down">düşecek</b> mi?';
@@ -614,8 +730,9 @@ function vRace(){const st=stg();
   <span class="pnl num" id="pnl${i}">$0</span><span class="num small" id="pp${i}"></span>
   ${pk.dir==='flat'?'':`<span class="small">💀 Likit: <b class="num down" id="lq${i}">-</b></span>`}
   <span class="status" id="st${i}"></span>${ctrl}</div>`};
- return `<div class="row sb"><h2 style="font-size:24px">$${esc(st.coin)} ${st.boss?'<span class="bossbadge">×2</span>':''}</h2><span class="small">Etap ${S.stage+1}/${S.stages.length} · <span class="tag r-${st.r}">${RNAME[st.r]}</span></span></div>
- <div class="chartbox"><canvas class="ch" id="cv" style="height:270px"></canvas>
+ return `<div class="arena" id="arena">${fighterHtml(0)}<div style="text-align:center"><div class="vs">VS</div><span class="small" style="font-size:12px">Etap ${S.stage+1}/${S.stages.length}</span></div>${fighterHtml(1)}</div>
+ <div class="row sb"><h2 style="font-size:22px">$${esc(st.coin)} ${st.boss?'<span class="bossbadge">×2</span>':''}</h2><span class="tag r-${st.r}">${RNAME[st.r]}</span></div>
+ <div class="chartbox" id="cbox"><canvas class="ch" id="cv" style="height:240px"></canvas>
   <div class="chart-hud"><span class="lbl">Fiyat</span><span class="num" id="px" style="font-size:22px;font-weight:800">${pxf(S.series[HIST-1])}</span><span class="num small" id="pxc">+0.0%</span></div>
   <div class="news" id="news" hidden></div>
   <div class="count" id="count">${'HAZIR'}</div></div>
@@ -666,14 +783,18 @@ function statTable(){const s=S.stats,row=(l,f,hi=1)=>{const a=f(s[0]),b=f(s[1]);
   ${row('Kullanılan kart',x=>x.cards)}</table>`;}
 function vEnd(){
  if(NP()===1){const best=P.daily[S.date];
-  return `<div><span class="lbl">Günlük meydan okuma · ${S.date}</span><h1 class="${S.bal[0]>=1000?'up':'down'}">${fmt(S.bal[0])}</h1><p class="small" style="margin:6px 0 0">${S.bankrupt!=null?'İflas ettin.':S.newBest?'🎉 Bugünün yeni rekoru!':best?'Bugünkü rekorun: '+fmt(best):''}</p></div>
+  return `${S.reward?`<div class="trophy">${S.reward.won?'🏆':NP()===2&&S.bal[0]===S.bal[1]?'🤝':'💀'}</div>
+ <div class="card col"><div class="reward"><div class="rw"><span class="lbl">XP</span><b id="rwx">+0</b></div><div class="rw"><span class="lbl">Coin 🪙</span><b id="rwc">+0</b></div></div>
+  <div class="row sb"><span class="lbl">Seviye <b id="lvn" style="color:var(--fg);font-size:16px">${S.reward.up?S.reward.from.lvl:P.lvl}</b></span><span class="small">${P.xp}/${P.lvl*300} XP</span></div><div class="xpbar"><i id="xpb"></i></div></div>`:''}<div><span class="lbl">Günlük meydan okuma · ${S.date}</span><h1 class="${S.bal[0]>=1000?'up':'down'}">${fmt(S.bal[0])}</h1><p class="small" style="margin:6px 0 0">${S.bankrupt!=null?'İflas ettin.':S.newBest?'🎉 Bugünün yeni rekoru!':best?'Bugünkü rekorun: '+fmt(best):''}</p></div>
   ${scorebar()}
   <div class="card col"><span class="lbl">Arkadaşlarına meydan oku</span><div class="share" id="sh">${esc(shareText())}</div><button class="ghost" id="cp">📤 Skoru paylaş</button></div>
   <div class="grid2"><button class="big" id="again" style="background:var(--warn)">Tekrar dene</button><button class="big ghost" id="menu">Ana menü</button></div>`;}
  const [a,b]=S.bal;const w=a===b?-1:a>b?0:1;
  const tt=titles();
  const rd=S.ratingDelta;
- return `<div><span class="lbl">${S.tutorial?'Eğitim maçı bitti':'Maç bitti'}</span><h1 class="${w===0?'p1c':w===1?'p2c':''}">${w===-1?'Berabere!':esc(S.names[w])+'<br>kazandı!'}</h1></div>
+ return `${S.reward?`<div class="trophy">${S.reward.won?'🏆':NP()===2&&S.bal[0]===S.bal[1]?'🤝':'💀'}</div>
+ <div class="card col"><div class="reward"><div class="rw"><span class="lbl">XP</span><b id="rwx">+0</b></div><div class="rw"><span class="lbl">Coin 🪙</span><b id="rwc">+0</b></div></div>
+  <div class="row sb"><span class="lbl">Seviye <b id="lvn" style="color:var(--fg);font-size:16px">${S.reward.up?S.reward.from.lvl:P.lvl}</b></span><span class="small">${P.xp}/${P.lvl*300} XP</span></div><div class="xpbar"><i id="xpb"></i></div></div>`:''}<div><span class="lbl">${S.tutorial?'Eğitim maçı bitti':'Maç bitti'}</span><h1 class="${w===0?'p1c':w===1?'p2c':''}">${w===-1?'Berabere!':esc(S.names[w])+'<br>kazandı!'}</h1></div>
  ${rd!=null?`<div class="card row sb"><div><span class="lbl">Reyting</span><div>${tierHtml(P.rating)}</div></div><b class="num ${rd>=0?'up':'down'}" style="font-size:24px">${rd>=0?'+':''}${rd}</b></div>`:''}
  ${S.tutorial?`<div class="card"><b>🎓 Öğretici tamam!</b><p class="small" style="margin:6px 0 0">Artık gerçek maçlara hazırsın. Bota karşı maçlar reytingini değiştirir; Kolay'dan başla, Zor'u yenmeye çalış.</p></div>`:''}
  ${scorebar()}
@@ -725,6 +846,9 @@ function draw(cv,p,upto,opt={}){
   const y1=Y(Math.max(o,cl)),y2=Y(Math.min(o,cl));c.fillRect(x-cw/2,y1,cw,Math.max(1.5,y2-y1));
  }
  c.globalAlpha=1;
+ if(upto>1){const tc=opt.entry!=null?(p[upto-1]>=p[opt.entry]?'#7dffb5':'#ff8a96'):'#c9b8ff';c.save();c.strokeStyle=tc;c.lineWidth=2;c.shadowColor=tc;c.shadowBlur=12;c.globalAlpha=.85;c.beginPath();
+  const s0=Math.max(0,opt.entry!=null?opt.entry:0);c.moveTo(X(s0),Y(p[s0]));for(let i=s0+1;i<upto;i++)c.lineTo(X(i),Y(p[i]));c.stroke();
+  c.globalAlpha=1;c.fillStyle='#fff';c.shadowBlur=18;c.beginPath();c.arc(X(upto-1),Y(p[upto-1]),4,0,7);c.fill();c.restore();}
  (opt.lines||[]).forEach(l=>hline(l.v,l.col,l.lab,l.dash));
  if(opt.entry!=null)hline(p[opt.entry],'#ffd45c','Giriş',false);
  // son fiyat etiketi
@@ -773,7 +897,7 @@ const bind={
  },
  profile(){$('#back').onclick=()=>{S.screen='start';render();};},
  intro(){draw($('#cv'),S.series,HIST,{total:HIST});$('#go').onclick=()=>{S.picker=0;S.screen='pick';render();};
-  if(needCoach('intro')){S.coached.intro=1;Coach.run(TUT.intro);}},
+  showVS(()=>{if(needCoach('intro')&&S.screen==='intro'){S.coached.intro=1;Coach.run(TUT.intro);}});},
  cover(){$('#go').onclick=()=>{S.screen='pick';render();}},
  pick(){
   const i=S.picker,pk=S.pick[i];
@@ -793,6 +917,7 @@ const bind={
  result(){const r=S.last;draw($('#cv'),S.series,r.endTick+1,{entry:HIST-1,marks:r.marks});
   $('#go').onclick=()=>{if(S.over){S.screen='end';render();const won=NP()===1?S.bal[0]>=1000:S.bal[0]>=S.bal[1]||S.mode==='duo';AU.sfx(won?'fanfare':'lose');if(won)FX.confetti(160);flushAch();}else{S.stage++;newStage();}}},
  end(){
+  animRewards();const w=S.reward&&S.reward.won;setTimeout(()=>FX.callout(w?'ZAFER!':'YENİLGİ',w?'#ffd45c':'#ff5c6c'),250);
   $('#again').onclick=()=>newGame();
   $('#menu').onclick=()=>{S.tutorial=false;S.screen='start';render();};
   const cp=$('#cp');if(cp)cp.onclick=async()=>{const txt=shareText();
@@ -861,13 +986,16 @@ function runRace(){
   if(why==='liq'){
    if(s.card==='shield'){s.pnl=-s.margin*.3;s.note='Likide oluyordu, kalkan kurtardı 🛡';$('#st'+i).textContent='🛡 Kalkan kurtardı!';AU.sfx('shield');if(i===0&&!isBot(i))unlock('shield');}
    else{s.pnl=-s.margin;s.note=`Likide oldu (${s.lev}x)`;$('#st'+i).innerHTML='<span class="liq">💀 LİKİDE OLDU!</span>';AU.sfx('liq');FX.liq();S.stats[i].liqs++;if(i===0)unlock('liq');}
-   s.mark={i:t,col:'#ff5c6c',t:'💀'};
+   s.mark={i:t,col:'#ff5c6c',t:'💀'};{const [x,y]=FX.at($('#av'+i));FX.burst(x,y,'boom',60);react(i,'ko');FX.callout(s.card==='shield'?'KALKAN!':'LİKİDE!',s.card==='shield'?'#c58bff':'#ff5c6c',esc(S.names[i]));FX.shk(document.getElementById('app'));}
   }else{
    s.pnl=Math.max(-s.margin,v);
    s.note={end:'Etap sonunda kapandı',manual:'Erken kapattı',tp:'Kâr al tetiklendi',sl:'Zarar kes tetiklendi'}[why];
    $('#st'+i).textContent={end:'Süre doldu',manual:'Kapattı ✓',tp:'🎯 Kâr alındı',sl:'Zarar kesildi'}[why];
    s.mark={i:t,col:i?'#3fd6e8':'#ffb340',t:i?'P2':'P1'};
-   if(why!=='end'){if(v>0)AU.sfx('profit',v/s.margin);else AU.sfx('loss');if(v>=s.margin)FX.confetti(50);}
+   if(why!=='end'){if(v>0)AU.sfx('profit',v/s.margin);else AU.sfx('loss');}
+   if(v>0){const [x,y]=FX.at($('#hud'+i));FX.burst(x,y,'coin',Math.min(40,8+Math.round(v/s.margin*20)));react(i,'win');
+    if(why!=='end'&&!isBot(i))FX.callout(v>=s.margin?'MEGA KÂR!':'KÂR!',v>=s.margin?'#ffd45c':'#4fd18b',sfmt(v));if(v>=s.margin)FX.confetti(50);}
+   else if(why!=='end')react(i,'hurt');
    if(why==='end'&&v>0)S.stats[i].holds++;
   }
   const b=$('#cl'+i);if(b)b.disabled=true;upd(i);};
@@ -879,9 +1007,9 @@ function runRace(){
  const redraw=()=>draw(cv,p,t+1,{total:p.length,entry:e,lines:lines(),marks:st.map(s=>s.mark).filter(Boolean)});
  redraw();st.forEach((s,i)=>upd(i));
  const cd=$('#count');
- const startCd=()=>{AU.setTense(true);let n=3;
+ const startCd=()=>{AU.setTense(true);BG.sp=4;let n=3;
   const tickCd=()=>{cd.classList.remove('pop');void cd.offsetWidth;cd.classList.add('pop');
-   if(n>0){cd.textContent=n;AU.sfx('beep',n);FX.vibrate(30);n--;setTimeout(tickCd,650);}else{cd.textContent='BAŞLA!';AU.sfx('go');setTimeout(()=>{cd.hidden=true;go();},420);}};
+   if(n>0){cd.textContent=n;AU.sfx('beep',n);FX.vibrate(30);n--;setTimeout(tickCd,650);}else{cd.textContent='SAVAŞ!';AU.sfx('go');FX.flashC('#ffd45c',.25);setTimeout(()=>{cd.hidden=true;go();},420);}};
   setTimeout(tickCd,S.pick.some(x=>x.card)?900:200);};
  if(needCoach('race')){S.coached.race=1;cd.hidden=true;Coach.run(TUT.race,()=>{P.tutDone=true;ST.save();unlock('tut');cd.hidden=false;startCd();});}else startCd();
  function botLive(i){const s=st[i];if(!s.open)return;const r=s.pnl/s.margin;s.peak=Math.max(s.peak,r);
@@ -892,14 +1020,18 @@ function runRace(){
   else if(S.bot==='ali'&&r>.3&&s.adds<2&&Math.random()<.08)addP(i);}
  function go(){for(let i=0;i<np;i++){const c=$('#cl'+i);if(c&&st[i].open)c.disabled=false;upd(i);}
   timer=setInterval(()=>{if(!document.body.contains(cv)){clearInterval(timer);return;}t++;
-   if(S.news&&t===S.news.tick){const nw=$('#news');nw.className='news '+(S.news.pos?'pos':'neg');nw.innerHTML=`<small>⚡ SON DAKİKA</small>${esc(S.news.text)}`;nw.hidden=false;AU.sfx('news');FX.vibrate(120);setTimeout(()=>{if(nw)nw.hidden=true;},3000);}
+   if(S.news&&t===S.news.tick){const nw=$('#news');nw.className='news '+(S.news.pos?'pos':'neg');nw.innerHTML=`<small>⚡ SON DAKİKA</small>${esc(S.news.text)}`;nw.hidden=false;AU.sfx('news');FX.flashC(S.news.pos?'#4fd18b':'#ff5c6c',.35);FX.shk($('#cbox'));FX.vibrate(120);setTimeout(()=>{if(nw)nw.hidden=true;},3000);}
+   {const mv=p[t]/p[t-1]-1,m2=p[t]/p[t-2]-1;if(Math.abs(mv)>.035){FX.shk($('#cbox'));FX.flashC(mv>0?'#4fd18b':'#ff5c6c',.18);FX.vibrate(25);}
+    st.forEach((s,i)=>{if(!s.open)return;react(i,m2*s.d>.003?'cheer':m2*s.d<-.003?'hurt':'idle');setHp(i,S.bal[i]+s.pnl);
+     const rr=s.pnl/s.margin;if(!isBot(i)&&!s.rocket&&rr>=1){s.rocket=1;FX.callout('ROKET! 🚀','#ffd45c','teminat ×2');AU.sfx('bonus');}});
+    if(np===1)react(1,m2*st[0].d<-.003?'cheer':m2*st[0].d>.003?'hurt':'idle');}
    for(let i=0;i<np;i++){const s=st[i];if(!s.open)continue;s.pnl=value(s,t);const r=s.pnl/s.margin;
     if(r<=-.9)closeP(i,'liq');else if(s.tp&&r>=s.tp/100)closeP(i,'tp');else if(s.sl&&r<=-s.sl/100)closeP(i,'sl');else{upd(i);if(isBot(i))botLive(i);}}
    $('#px').textContent=pxf(p[t]);const ch=p[t]/p[e]-1;const pc=$('#pxc');pc.textContent=pct(ch);pc.className='num small '+(ch>=0?'up':'down');
    const pr=$('#prog i');if(pr)pr.style.width=Math.max(0,100*(1-(t-e)/total))+'%';const pt=$('#progt');if(pt)pt.textContent=Math.ceil((total-(t-e))*TICK_MS/1000)+' sn';
    if((t-e)%2===0)AU.sfx('chart',p[t]-p[t-3]);
    redraw();
-   if(t>=p.length-1||st.every(s=>!s.open)){clearInterval(timer);
+   if(t>=p.length-1||st.every(s=>!s.open)){clearInterval(timer);BG.sp=1;
     for(let i=0;i<np;i++)closeP(i,'end');setTimeout(()=>finish(st,t),1200);}
   },TICK_MS);}
 }
@@ -933,15 +1065,26 @@ function finish(st,endTick){
  const bk=S.bal.findIndex(b=>b<1);
  S.bankrupt=bk>=0?bk:null;
  S.over=bk>=0||S.stage===S.stages.length-1;
- if(S.over)matchOver();
+ if(S.over){grantRewards();matchOver();}
  S.last={res,bonus,endTick,marks:st.map(s=>s.mark).filter(Boolean),move:endMv};
  AU.setTense(false);
  S.screen='result';render();
- if(bonus.length){AU.sfx('bonus');toast(bonus.join("<br>"));FX.confetti(70);}
+ if(bonus.length){AU.sfx('bonus');toast(bonus.join("<br>"));FX.confetti(70);FX.callout('SERİ x3!','#c58bff','+'+fmt(STREAK_BONUS));}
  else AU.sfx(np===2?(S.wins[S.stage]===-1?'draw':S.wins[S.stage]===0||S.mode==='duo'?'win':'lose'):(res[0].pnl>0?'win':res[0].pnl<0?'lose':'draw'));
  if(!S.over)flushAch();
 }
+function grantRewards(){const won=NP()===1?S.bal[0]>1000:S.bal[0]>S.bal[1];const s=S.stats[0];
+ const xp=Math.min(400,s.stageW*25+(won?120:40)+Math.max(0,Math.round((S.bal[0]-1000)/20))+(S.mode==='bot'&&won&&S.bot==='zor'?80:0));
+ const coins=Math.max(5,Math.round(S.bal[0]/50));const from={lvl:P.lvl,xp:P.xp};
+ P.xp+=xp;P.coins+=coins;let up=0;while(P.xp>=P.lvl*300){P.xp-=P.lvl*300;P.lvl++;up++;}
+ S.reward={xp,coins,from,up,won};}
 function addLB(score,opp){P.lb.push({s:Math.round(score),o:opp,d:today()});P.lb.sort((a,b)=>b.s-a.s);P.lb=P.lb.slice(0,10);}
+function animRewards(){const r=S.reward;if(!r)return;const bar=$('#xpb');if(!bar)return;const need=l=>l*300;
+ bar.style.transition='none';bar.style.width=(100*r.from.xp/need(r.from.lvl))+'%';void bar.offsetWidth;bar.style.transition='';
+ let n=0;const cn=$('#rwc'),cx=$('#rwx');const tk=setInterval(()=>{n++;if(cn)cn.textContent='+'+Math.round(r.coins*n/20);if(cx)cx.textContent='+'+Math.round(r.xp*n/20);if(n%4===0)AU.sfx('coin');if(n>=20)clearInterval(tk);},45);
+ if(r.up){setTimeout(()=>{bar.style.width='100%';},60);setTimeout(()=>{bar.style.transition='none';bar.style.width='0%';void bar.offsetWidth;bar.style.transition='';bar.style.width=(100*P.xp/need(P.lvl))+'%';
+   const l=$('#lvn');if(l)l.textContent=P.lvl;FX.callout('SEVİYE '+P.lvl+'!','#3fd6e8','seviye atladın');AU.sfx('lvl');FX.confetti(90);},1350);}
+ else setTimeout(()=>{bar.style.width=(100*P.xp/need(P.lvl))+'%';},60);}
 function matchOver(){
  if(NP()===1){S.newBest=false;const old=P.daily[S.date]||0;if(S.bal[0]>old){P.daily[S.date]=Math.round(S.bal[0]);S.newBest=true;}
   addLB(S.bal[0],'📅 Günlük');unlock('daily');if(S.bal[0]>=2000)unlock('d2k');ST.save();return;}
